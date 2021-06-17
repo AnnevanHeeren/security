@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -11,7 +14,7 @@ class PasswordResetLinkController extends Controller
     /**
      * Display the password reset link request view.
      *
-     * @return \Illuminate\View\View
+     * @return Application|Factory|View|\Illuminate\View\View
      */
     public function create()
     {
@@ -40,8 +43,7 @@ class PasswordResetLinkController extends Controller
         );
 
         return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+            ? back()->with('status', "If this email address exists in our system, we have emailed you a password reset link!")
+            : back()->with('status', "If this email address exists in our system, we have emailed you a password reset link!");
     }
 }
